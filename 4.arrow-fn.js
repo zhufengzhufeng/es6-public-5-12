@@ -18,8 +18,8 @@ function a(c) {
   }
 }
 // function middleware(store) {
-//   return function dispatch(params) {
-//     return function action(params) {
+//   return function (dispatch) {
+//     return function (action) {
 //     }
 //   }
 // }
