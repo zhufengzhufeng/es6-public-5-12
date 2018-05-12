@@ -18,6 +18,7 @@
 // promise可以实现不在传递回调函数了
 // 事件环
 // Promise只有一个参数 叫excutor执行器，默认new时就会调用
+
 let p = new Promise((resolve,reject)=>{ 
   // 默认promise中的executor是同步执行的
    resolve('买');

@@ -32,14 +32,16 @@ function read(url) {
 // });
 // 如果返回的是一个普通值就会走到写一个then中的成功回调
 // 如果有错误产生会走失败的回调
-
 read('1.txt').then(data=>{
 }).then(data=>{
   throw new Error();
 }).catch(err=>{
   console.log(err);
 }).then(data=>{
-  console.log('catch');
+  throw new Error()
+}).then(data=>{
+},err=>{
+  console.log(err);
 });
 
 
