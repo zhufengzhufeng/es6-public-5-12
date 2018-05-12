@@ -38,7 +38,9 @@ function deepClone(obj) {
   if (obj instanceof RegExp) return new RegExp(obj);
   let o = new obj.constructor(); // 保留类的继承关系
   for (let key in obj) {
-    o[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key]
+    if (obj.hasOwnProperty(obj[key])){
+      o[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key]
+    }
   }
   return o;
 }
