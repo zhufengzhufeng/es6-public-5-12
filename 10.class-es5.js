@@ -30,6 +30,7 @@ let Parent = function () {
   function P() {
     _classCallCheck(this, P);
     this.name = 'parent';
+    return {}
   }
   _createClass(P, // 属性描述器
     [
@@ -51,4 +52,27 @@ let Parent = function () {
   )
   return P;
 }();
- Parent();
+// 子类继承父类
+function _inherits(subClass,superClass) {
+  // 继承公有属性
+  subClass.prototype = Object.create(superClass.prototype,{constructor:{value:subClass}});
+  // 继承静态方法
+  Object.setPrototypeOf(subClass,superClass);
+}
+let Child = (function (Parent){
+  // 先实现继承父类的公有属性和静态方法
+  _inherits(C,Parent);
+  function C() {
+    _classCallCheck(this,C);
+    let obj = Parent.call(this);
+    let that = this;
+    if(typeof obj === 'object'){
+      that = obj;
+    }
+    that.age = 9; //  解决了父类返回一个引用类型的问题
+    return that;
+  }
+  return C;
+})(Parent);
+let child = new Child();
+console.log(child);

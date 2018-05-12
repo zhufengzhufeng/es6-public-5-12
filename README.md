@@ -19,3 +19,13 @@
 node -v
 npm install -g n
 ```
+
+
+## 5月13日
+手写一套符合promise A+规范的promise
+函数的应用
+generator用法
+co库
+async await
+prmoise q bluebird
+proxy reflect
