@@ -30,4 +30,4 @@ function ajax({ url = new Error('url without'), type = "get", data = xxx }) {
 ajax({
   url: '/test',
   data: {}
-})
+});
