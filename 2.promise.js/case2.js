@@ -1,7 +1,7 @@
 // let Promise = require('./promise');
 let p = new Promise((resolve,reject)=>{
   setTimeout(()=>{
-    resolve(123);
+    reject(123);
   },1000)
 });
 p.then((data) => {
