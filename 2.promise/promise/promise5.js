@@ -20,7 +20,7 @@ function promisify(fn) {
         if(err)reject(err);
         resolve(data);
       })
-    })
+    });
   }
 }
 // /// node的回调函数第一个参数永远是err  error-first
