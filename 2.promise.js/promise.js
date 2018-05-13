@@ -126,8 +126,8 @@ class Promise {
     return promise2; // 调用then后返回一个新的promise
   }
 }
-// promise的语法糖
-Promise.deferred = derfer = function () {
+// promise的语法糖，测试
+Promise.deferred = Promise.defer = function () {
   let dfd = {};
   dfd.promise = new Promise((resolve,reject)=>{
     dfd.resolve = resolve;
