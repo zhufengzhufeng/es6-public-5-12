@@ -9,7 +9,7 @@ let read = promisify(fs.readFile);
 async function r() {
   let b = await Promise.all([read('a.txt', 'utf8'), read('b.txt', 'utf8')]);
   return b;
-}
+};
 r().then(data=>{
   console.log(data);
 });
