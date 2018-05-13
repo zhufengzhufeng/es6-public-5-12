@@ -12,15 +12,15 @@ function resolvePromise(promise2, x, resolve, reject) {
       if (typeof then === 'function') { // 如果then是函数我就认为它是promise
         // call 第一个参数是this ，后面的是成功的回调和失败的回调
         then.call(x, y => { // 如果y是promise就继续递归解析promise
-          if (called) return;
+          if(called) return;
           called = true;
-          resolvePromise(promise2, y, resolve, reject);
+          resolvePromise(promise2,y,resolve,reject);
         }, r => { // 只要失败了就失败了
           if (called) return;
           called = true;
           reject(r);
         });
-      } else { // then是一个普通对象，就直接成功即可1
+      }else{ // then是一个普通对象，就直接成功即可1
         resolve(x);
       }
     } catch (e) {
@@ -63,37 +63,22 @@ class Promise {
     }
   }
   then(onFulFilled, onRejected) {
-    // 解决onFulFilled,onRejected没有传的问题
-    onFulFilled = typeof onFulFilled === 'function' ? onFulFilled : y => y;
-    onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err; };
     let promise2;
     if (this.status === 'resolved') {
       promise2 = new Promise((resolve, reject) => {
         // 成功的逻辑 失败的逻辑
-        setTimeout(() => {
-          try {
-            let x = onFulFilled(this.value);
-            // 看x是不是promise 如果是promise 取他的结果 作为promise2,成功的结果
-            // 如果要是返回一个普通值 作为promise2,成功的结果
+        let x = onFulFilled(this.value);
+        // 看x是不是promise 如果是promise 取他的结果 作为promise2,成功的结果
+        // 如果要是返回一个普通值 作为promise2,成功的结果
 
-            // resolvePromise可以解析x和promise2之间的关系
-            resolvePromise(promise2, x, resolve, reject);
-          } catch (e) {
-            reject(e);
-          }
-        }, 0);
+        // resolvePromise可以解析x和promise2之间的关系
+        resolvePromise(promise2, x, resolve, reject);
       });
     }
     if (this.status === 'rejected') {
       promise2 = new Promise((resolve, reject) => {
-        setTimeout(() => {
-          try {
-            let x = onRejected(this.reason);
-            resolvePromise(promise2, x, resolve, reject)
-          } catch (e) {
-            reject(e);
-          }
-        }, 0);
+        let x = onRejected(this.reason);
+        resolvePromise(promise2, x, resolve, reject)
       });
     }
     // 当前既没有完成 也没有失败
@@ -101,41 +86,18 @@ class Promise {
       // 存放成功的回调
       promise2 = new Promise((resolve, reject) => {
         this.onResolvedCallbacks.push(() => {
-          setTimeout(() => {
-            try {
-              let x = onFulFilled(this.value);
-              resolvePromise(promise2, x, resolve, reject)
-            } catch (e) {
-              reject(e);
-            }
-          }, 0)
+          let x = onFulFilled(this.value);
+          resolvePromise(promise2, x, resolve, reject)
         });
         // 存放失败的回调
         this.onRejectedCallbacks.push(() => {
-          setTimeout(() => {
-            try {
-              let x = onRejected(this.reason);
-              resolvePromise(promise2, x, resolve, reject);
-            } catch (e) {
-              reject(e);
-            }
-          }, 0);
+          let x = onRejected(this.reason);
+          resolvePromise(promise2, x, resolve, reject);
         });
       })
     }
     return promise2; // 调用then后返回一个新的promise
   }
 }
-// promise的语法糖
-Promise.deferred = derfer = function () {
-  let dfd = {};
-  dfd.promise = new Promise((resolve,reject)=>{
-    dfd.resolve = resolve;
-    dfd.reject = reject;
-  })
-  return dfd;
-}
-// npm install promises-aplus-tests -g
-// promises-aplus-test 文件名
 module.exports = Promise;
 // 写完promise会测试一下

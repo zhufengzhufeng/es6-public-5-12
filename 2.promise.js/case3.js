@@ -1,5 +1,5 @@
-let Promise = require('./promise');
-let p = new Promise((resolve, reject) => {
+let P = require('./promise');
+let p = new P((resolve, reject) => {
   resolve();
 });
 // 会取promise的返回结果作为外层下一次then的参数
@@ -8,11 +8,13 @@ let p = new Promise((resolve, reject) => {
 p.then((data) => {
   return new Promise((resolve,reject)=>{
     resolve(new Promise((resolve,reject)=>{
-      resolve(100)
-    }));
+      reject('1234565');
+    }))
   })
 }, err => {
   console.log('p1:err', err);
 }).then((data)=> {
   console.log(data);
+},err=>{
+  console.log('e',err);
 })
